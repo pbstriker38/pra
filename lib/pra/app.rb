@@ -2,6 +2,7 @@ require 'thread'
 
 require 'pra/window_system_factory'
 require 'pra/pull_request_service'
+require 'pra/repository_wizard'
 require 'pra/error_log'
 
 Thread.abort_on_exception=true
@@ -9,6 +10,10 @@ Thread.abort_on_exception=true
 module Pra
   class App
     def run
+      if ARGV[0] == '-g'
+        ARGV.clear #clear arguments for gets to work properly
+        Pra::RepositoryWizard.start
+      end
       @window_system = Pra::WindowSystemFactory.build('curses')
       @window_system.setup
 
